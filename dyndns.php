@@ -72,7 +72,6 @@ function create_subdomain(){
 
     //Get the visitor town    //$maxurl = get_option('maxmind_service_url') . "46.10.117.238";
     //Need to check if the town it is within the file!!!
-
       //global $city;
       //global $country;
       //$city = $mmcity['city']['names']['en'];
