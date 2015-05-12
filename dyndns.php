@@ -18,24 +18,23 @@ class domain{
 }
 
 function create_subdomain(){
+  $postdata = array("type" => "CNAME", "name" => "home", "data" => "128.199.44.288");
+
+  $postdata_json = json_encode($postdata);
+
   $ch = curl_init($request_uri);
   $headers = array(
     'Content-Type:application/json',
-    'Authorization: Bearer ' . file_get_contents('token.txt') );
-  $postdata = '{
-  "type": "A",
-  "name": "home",
-  "data": "128.199.44.228",
-  "priority": null,
-  "port": null,
-  "weight": null
-  }';
+    'Authorization: Bearer ' . file_get_contents('token.txt'),
+    'Content-Length: ' . strlen($postdata_json)
+    );
+
 
   $ch = curl_init();                    // initiate curl
   $url = "https://api.digitalocean.com/v2/domains/denkov.org/records"; // where you want to post data
   curl_setopt($ch, CURLOPT_URL,$url);
-  curl_setopt($ch, CURLOPT_POST, true);  // tell curl you want to post something
-  curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata); // define what you want to post
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");  // tell curl you want to post something
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata_json); // define what you want to post
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // return the output in string format
   curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
   $output = curl_exec ($ch); // execute
@@ -43,6 +42,7 @@ function create_subdomain(){
   curl_close ($ch); // close curl handle
 
   var_dump($output); // show output
+
 }
 
     $ch = curl_init($request_uri);
@@ -58,6 +58,7 @@ function create_subdomain(){
       //global $response;
       //echo $response;
 
+
       $jsdecode = json_decode($response);
       foreach ($jsdecode->domain_records as $drecord ){
         echo $drecord -> name;
@@ -70,6 +71,7 @@ function create_subdomain(){
       }
       create_subdomain();
 
+
     //Get the visitor town    //$maxurl = get_option('maxmind_service_url') . "46.10.117.238";
     //Need to check if the town it is within the file!!!
       //global $city;
@@ -77,6 +79,10 @@ function create_subdomain(){
       //$city = $mmcity['city']['names']['en'];
       //$country = $mmcity['country'] ['iso_code'];
       //Check if the IP is within the US
+
+
+            //CLI curl that works
+            //curl -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer b7d03a6947b217efb6f3ec3bd3504582' -d '{"type":"A","name":"customdomainrecord.com","data":"162.10.66.0","priority":null,"port":null,"weight":null}' "https://api.digitalocean.com/v2/domains/digitaloceanisthebombdiggity.com/records"
 
 
 
